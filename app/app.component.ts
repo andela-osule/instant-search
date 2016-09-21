@@ -4,7 +4,7 @@ import { Subject } from 'rxjs/subject';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/switchMap';
 
 
 @Component({
@@ -21,7 +21,7 @@ export class AppComponent {
         this.term$
         .debounceTime(400)
         .distinctUntilChanged()
-        .mergeMap(term => this.service.search(term)) //flattens observable of observable
+        .switchMap(term => this.service.search(term)) //flattens observable of observable
         .subscribe(results => this.items = results);
     }
 }
