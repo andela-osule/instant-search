@@ -4,6 +4,7 @@ import { Subject } from 'rxjs/subject';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/mergeMap';
 
 
 @Component({
@@ -20,9 +21,7 @@ export class AppComponent {
         this.term$
         .debounceTime(400)
         .distinctUntilChanged()
-        .map(term => this.service.search(term))
-        .subscribe(obsRes => obsRes.subscribe(
-            results => this.items = results
-        ));
+        .mergeMap(term => this.service.search(term)) //flattens observable of observable
+        .subscribe(results => this.items = results);
     }
 }
