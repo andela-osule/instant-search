@@ -10,7 +10,7 @@ export class WikipediaSearchService {
     search(terms: Observable<string>, debounceMs=400) {
         return terms.debounceTime(400)
                     .distinctUntilChanged()
-                    .switchMap(term => this.rawsearch(term)) //flattens observable of observable
+                    .switchMap(term => this.rawsearch(term)) //throw away previous observable & subscribe to next
     }
 
     rawsearch(term: string) {
@@ -22,7 +22,7 @@ export class WikipediaSearchService {
         .map(response => response.json()[1]);
         if (term.length === 2) {
             obs = obs.delay(100);
-        }
+        } // simulate out of order response
         return obs
     }
 }
