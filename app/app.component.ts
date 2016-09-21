@@ -20,11 +20,9 @@ export class AppComponent {
         this.term$
         .debounceTime(400)
         .distinctUntilChanged()
-        .subscribe(term => this.search(term));
-    }
-
-    search(term: string) {
-        this.service.search(term)
-            .subscribe(results => this.items = results);
+        .map(term => this.service.search(term))
+        .subscribe(obsRes => obsRes.subscribe(
+            results => this.items = results
+        ));
     }
 }
